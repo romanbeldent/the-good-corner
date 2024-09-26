@@ -6,8 +6,8 @@ POST http://localhost:3000/ads
 Content-type: application/json
 
   {
-    "title": "Eventail",
-    "description": "De ma mamie",
+    "title": "Eventail 3",
+    "description": "De ma mamie 100 car",
     "owner": "eventailmamie@gmail.com",
     "price": 100,
     "picture":
@@ -16,18 +16,18 @@ Content-type: application/json
   }
 
 ###
-DELETE http://localhost:3000/ads/25
+DELETE http://localhost:3000/ads/24
 
 ###
-PUT http://localhost:3000/ads/23
+PUT http://localhost:3000/ads/19
 Content-type: application/json
 
   {
-    "title": "Eventail fleuri",
+    "title": "Eventail fleuri au top il est magnifiiique",
     "description": "De ma mamie",
     "owner": "eventailmamie@gmail.com",
     "price": 100,
     "picture":
       "https://eventail.jpg",
-    "location": "Bordeaux",
+    "location": "Bordeaux"
   }
