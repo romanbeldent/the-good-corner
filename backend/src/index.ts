@@ -1,36 +1,13 @@
 import express from "express";
+import sqlite3 from 'sqlite3';
+
+const dbPath = './sql/good_corner.sqlite'
+const db = new sqlite3.Database(dbPath);
 
 const app = express();
 const port = 3000;
 
 app.use(express.json());
-
-let ads = [
-  {
-    id: 1,
-    title: "Bike to sell",
-    description:
-      "My bike is blue, working fine. I'm selling it because I've got a new one",
-    owner: "bike.seller@gmail.com",
-    price: 100,
-    picture:
-      "https://images.lecho.be/view?iid=dc:113129565&context=ONLINE&ratio=16/9&width=640&u=1508242455000",
-    location: "Paris",
-    createdAt: "2023-09-05T10:13:14.755Z",
-  },
-  {
-    id: 2,
-    title: "Car to sell",
-    description:
-      "My car is blue, working fine. I'm selling it because I've got a new one",
-    owner: "car.seller@gmail.com",
-    price: 10000,
-    picture:
-      "https://www.automobile-magazine.fr/asset/cms/34973/config/28294/apres-plusieurs-prototypes-la-bollore-bluecar-a-fini-par-devoiler-sa-version-definitive.jpg",
-    location: "Paris",
-    createdAt: "2023-10-05T10:14:15.922Z",
-  },
-];
 
 app.get("/", (_req, res) => {
   res.send("Hello World!");
@@ -41,27 +18,68 @@ app.listen(port, () => {
 });
 
 app.get("/ads", (_req, res) => {
-  res.send(ads);
+  db.all("SELECT * from ad", (err, rows) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res.send(rows)
+    }
+  })
 })
 
 app.post("/ads", (req, res) => {
-  console.log(req.body);
-  ads.push(req.body);
-  res.send(ads)
+  const stmt = db.prepare(
+    "INSERT INTO ad (title, description, owner, price, picture, location, createdAt) VALUES (?, ?, ?, ?, ?, ?, DATETIME('now'))"
+  );
+
+  stmt.run([
+    req.body.title,
+    req.body.description,
+    req.body.owner,
+    req.body.price,
+    req.body.picture,
+    req.body.location,
+    req.body.createdAt
+  ], err => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send("Annonce ajouté avec succès")
+    }
+  });
 });
 
 app.delete("/ads/:id", (req, res) => {
-  ads = ads.filter((el) => el.id !== parseInt(req.params.id));
-  res.send("The ad was deleted");
-})
-
-app.put("/ads/:id", (req, res) => {
-  ads = ads.map((el) => {
-    if (el.id !== parseInt(req.params.id)) {
-      return el;
+  const id = req.params.id;
+  const stmt = db.prepare("DELETE FROM ad WHERE id = ?");
+  stmt.run(id, err => {
+    if (err) {
+      console.log(err);
     } else {
-      return {...el, ...req.body};
+      res.send("Annonce supprimée avec succès")
     }
   });
-  res.send("The ad was updated");
-})
+});
+
+app.put("/ads/:id", (req, res) => {
+  const stmt = db.prepare(
+    "UPDATE ad SET title = ?, description = ?, owner = ?, price = ?, picture = ?, location = ?, createdAt = ? WHERE id = ?"
+  );
+
+  stmt.run([
+    req.body.title,
+    req.body.description,
+    req.body.owner,
+    req.body.price,
+    req.body.picture,
+    req.body.location,
+    req.body.createdAt,
+    req.params.id
+  ], err => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send("Annonce modifié avec succès")
+    }
+  })
+});
