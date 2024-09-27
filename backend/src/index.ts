@@ -5,6 +5,7 @@ import { Ad } from "./entities/Ad";
 import { validate } from "class-validator";
 import { Category } from "./entities/Category";
 import { Like } from "typeorm";
+import { Tag } from "./entities/Tag";
 
 const app = express();
 const port = 3000;
@@ -22,10 +23,10 @@ app.get("/ads", async (req, res) => {
       where: {
         category: { name: req.query.category as string },
       },
-      relations: { category: true },
+      relations: { category: true, tags: true  },
     });
   } else {
-    ads = await Ad.find({ relations: { category: true } });
+    ads = await Ad.find({ relations: { category: true, tags: true } });
   }
   res.send(ads);
 });
@@ -58,7 +59,8 @@ app.post("/ads", async (req, res) => {
   ad.picture = req.body.picture;
   ad.location = req.body.location;
   ad.createdAt = new Date();
-  ad.category = req.body.categoryId ? req.body.category : 1;
+  ad.category = req.body.categoryId ? req.body.categoryId : 1;
+  ad.tags = req.body.tags;
 
   const errors = await validate(ad);
   if (errors.length > 0) {
@@ -88,6 +90,15 @@ app.put("/ads/:id", async (req, res) => {
     res.status(400).send("Invalid request");
   }
 });
+
+app.post("/tags", async (req, res) => {
+  const tag = new Tag();
+
+  tag.name = req.body.name;
+
+  const result = await tag.save();
+  res.send(JSON.stringify(result))
+})
 
 app.listen(port, async () => {
   await dataSourceGoodCorner.initialize();

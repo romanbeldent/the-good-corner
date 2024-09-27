@@ -1,6 +1,7 @@
 import { Length } from "class-validator";
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable } from "typeorm";
 import { Category } from "./Category";
+import { Tag } from "./Tag";
 
 @Entity()
 export class Ad extends BaseEntity {
@@ -10,7 +11,7 @@ export class Ad extends BaseEntity {
     @Column()
     title: string;
 
-    @Column( {length: 100} )
+    @Column({ length: 100 })
     @Length(10, 100, {
         message: "Entre 10 et 100 caractères"
     })
@@ -31,6 +32,10 @@ export class Ad extends BaseEntity {
     @Column()
     createdAt: Date;
 
-    @ManyToOne (() => Category, category => category.ads)
+    @ManyToOne(() => Category, category => category.ads)
     category: Category;
+
+    @ManyToMany(() => Tag, tag => tag.ads)
+    @JoinTable()
+    tags: Tag[];
 }
