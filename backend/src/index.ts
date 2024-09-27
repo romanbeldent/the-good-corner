@@ -4,6 +4,7 @@ import { dataSourceGoodCorner } from "./config/db";
 import { Ad } from "./entities/Ad";
 import { validate } from "class-validator";
 import { Category } from "./entities/Category";
+import { Like } from "typeorm";
 
 const app = express();
 const port = 3000;
@@ -14,16 +15,39 @@ app.get("/", (_req, res) => {
   res.send("Hello World!");
 });
 
-app.get("/ads", async (_req, res) => {
+app.get("/ads", async (req, res) => {
+  let ads: Ad[];
+  if (req.query.category) {
+    ads = await Ad.find({
+      where: {
+        category: { name: req.query.category as string },
+      },
+      relations: { category: true },
+    });
+  } else {
+    ads = await Ad.find({ relations: { category: true } });
+  }
+  res.send(ads);
+});
+
+app.get("/ads/", async (_req, res) => {
   const ads = await Ad.find({ relations: ["category"] });
   res.send(ads);
 })
 
-app.get("/categories", async (_req, res) =>  {
-  const categories = await Category.find()
+app.get("/categories", async (req, res) => {
+  let categories: Category[];
+  if (req.query.name) {
+    categories = await Category.find({
+      where: {
+        name: Like(`${req.query.name as string}%`),
+      },
+    });
+  } else {
+    categories = await Category.find();
+  }
   res.send(categories);
-}
-)
+});
 
 app.post("/ads", async (req, res) => {
   const ad = new Ad();
@@ -34,8 +58,7 @@ app.post("/ads", async (req, res) => {
   ad.picture = req.body.picture;
   ad.location = req.body.location;
   ad.createdAt = new Date();
-  ad.category = req.body.categoryId;
-
+  ad.category = req.body.categoryId ? req.body.category : 1;
 
   const errors = await validate(ad);
   if (errors.length > 0) {
@@ -59,8 +82,7 @@ app.put("/ads/:id", async (req, res) => {
     let ad = await Ad.findOneByOrFail({ id })
     ad = Object.assign(ad, req.body);
     const result = await ad.save();
-    console.log(result);
-    res.send("Ad has been updated");
+    res.send(result);
   } catch (err) {
     console.log(err);
     res.status(400).send("Invalid request");

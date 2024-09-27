@@ -1,4 +1,4 @@
-UPDATE ad SET categoryId = 3 WHERE id = 3;
+UPDATE ad SET categoryId = 1;
 
 /*
 BEGIN TRANSACTION;

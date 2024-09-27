@@ -1,8 +1,12 @@
-GET http://localhost:3000/ads
+GET http://localhost:3000/ads?category=autre
 
 ###
 
-GET http://localhost:3000/categories
+GET http://localhost:3000/categories?name=a
+
+###
+
+GET http://localhost:3000/categories?name=a
 
 ###
 
@@ -11,7 +15,7 @@ Content-type: application/json
 
   {
     "title": "Eventail category",
-    "description": "De ma mamie 100 car",
+    "description": "De ma mamie 100",
     "owner": "eventailmamie@gmail.com",
     "price": 100,
     "picture":
@@ -24,15 +28,9 @@ Content-type: application/json
 DELETE http://localhost:3000/ads/24
 
 ###
-PUT http://localhost:3000/ads/19
+PUT http://localhost:3000/ads/1
 Content-type: application/json
 
   {
-    "title": "Eventail fleuri au top il est magnifiiique",
-    "description": "De ma mamie",
-    "owner": "eventailmamie@gmail.com",
-    "price": 100,
-    "picture":
-      "https://eventail.jpg",
-    "location": "Bordeaux"
+    "category": 1
   }
