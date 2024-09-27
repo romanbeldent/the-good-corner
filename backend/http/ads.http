@@ -2,17 +2,22 @@ GET http://localhost:3000/ads
 
 ###
 
+GET http://localhost:3000/categories
+
+###
+
 POST http://localhost:3000/ads
 Content-type: application/json
 
   {
-    "title": "Eventail 3",
+    "title": "Eventail category",
     "description": "De ma mamie 100 car",
     "owner": "eventailmamie@gmail.com",
     "price": 100,
     "picture":
       "https://eventail.jpg",
-    "location": "Bordeaux"
+    "location": "Bordeaux",
+    "categoryId": 1
   }
 
 ###

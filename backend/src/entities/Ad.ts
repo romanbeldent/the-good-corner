@@ -1,5 +1,6 @@
 import { Length } from "class-validator";
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Category } from "./Category";
 
 @Entity()
 export class Ad extends BaseEntity {
@@ -29,4 +30,7 @@ export class Ad extends BaseEntity {
 
     @Column()
     createdAt: Date;
+
+    @ManyToOne (() => Category, category => category.ads)
+    category: Category;
 }

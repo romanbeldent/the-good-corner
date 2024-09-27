@@ -3,6 +3,7 @@ import express from "express";
 import { dataSourceGoodCorner } from "./config/db";
 import { Ad } from "./entities/Ad";
 import { validate } from "class-validator";
+import { Category } from "./entities/Category";
 
 const app = express();
 const port = 3000;
@@ -14,9 +15,15 @@ app.get("/", (_req, res) => {
 });
 
 app.get("/ads", async (_req, res) => {
-  const ads = await Ad.find()
+  const ads = await Ad.find({ relations: ["category"] });
   res.send(ads);
 })
+
+app.get("/categories", async (_req, res) =>  {
+  const categories = await Category.find()
+  res.send(categories);
+}
+)
 
 app.post("/ads", async (req, res) => {
   const ad = new Ad();
@@ -27,6 +34,8 @@ app.post("/ads", async (req, res) => {
   ad.picture = req.body.picture;
   ad.location = req.body.location;
   ad.createdAt = new Date();
+  ad.category = req.body.categoryId;
+
 
   const errors = await validate(ad);
   if (errors.length > 0) {

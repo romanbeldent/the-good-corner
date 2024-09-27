@@ -1,3 +1,6 @@
+UPDATE ad SET categoryId = 3 WHERE id = 3;
+
+/*
 BEGIN TRANSACTION;
 
 PRAGMA foreign_keys = ON;
