@@ -1,24 +1,17 @@
 GET http://localhost:3000/ads
 
 ###
-
 GET http://localhost:3000/ads?category=autre
 
 ###
-
 GET http://localhost:3000/categories?name=a
 
 ###
-
-GET http://localhost:3000/categories?name=a
-
-###
-
 POST http://localhost:3000/ads
 Content-type: application/json
 
   {
-    "title": "Objet mystère tag",
+    "title": "Objet test tag 10",
     "description": "Nouvel objet mysterieux",
     "owner": "mysterio@gmail.com",
     "price": 999,
@@ -26,21 +19,9 @@ Content-type: application/json
       "https://mystere.jpg",
     "location": "Mystere",
     "category": 1,
-    "tags": [{"id":1},{"id":2},{"id":3}]
+    "tags": [{"id":11}]
   }
-
-###
-
-POST http://localhost:3000/tags
-Content-type: application/json
-
-  {
-    "name": "Promo"
-  }
-
-###
-DELETE http://localhost:3000/ads/24
-
+  
 ###
 PUT http://localhost:3000/ads/2
 Content-type: application/json
@@ -48,3 +29,6 @@ Content-type: application/json
   {
     "tag": [{"id":1},{"id":2},{"id":3}]
   }
+
+###
+DELETE http://localhost:3000/ads/24

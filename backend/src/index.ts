@@ -12,6 +12,11 @@ const port = 3000;
 
 app.use(express.json());
 
+app.listen(port, async () => {
+  await dataSourceGoodCorner.initialize();
+  console.log(`Example app listening on port ${port}`);
+});
+
 app.get("/", (_req, res) => {
   res.send("Hello World!");
 });
@@ -23,7 +28,7 @@ app.get("/ads", async (req, res) => {
       where: {
         category: { name: req.query.category as string },
       },
-      relations: { category: true, tags: true  },
+      relations: { category: true, tags: true },
     });
   } else {
     ads = await Ad.find({ relations: { category: true, tags: true } });
@@ -34,20 +39,6 @@ app.get("/ads", async (req, res) => {
 app.get("/ads/", async (_req, res) => {
   const ads = await Ad.find({ relations: ["category"] });
   res.send(ads);
-})
-
-app.get("/categories", async (req, res) => {
-  let categories: Category[];
-  if (req.query.name) {
-    categories = await Category.find({
-      where: {
-        name: Like(`${req.query.name as string}%`),
-      },
-    });
-  } else {
-    categories = await Category.find();
-  }
-  res.send(categories);
 });
 
 app.post("/ads", async (req, res) => {
@@ -65,23 +56,19 @@ app.post("/ads", async (req, res) => {
   const errors = await validate(ad);
   if (errors.length > 0) {
     console.log(errors);
-    res.status(400).send("La description doit faire entre 10 et 100 caractères")
+    res
+      .status(400)
+      .send("La description doit faire entre 10 et 100 caractères");
   } else {
-    const result = await ad.save()
+    const result = await ad.save();
     res.send(JSON.stringify(result));
   }
-});
-
-app.delete("/ads/:id", async (req, res) => {
-  const result = await Ad.delete(req.params.id);
-  console.log(result);
-  res.send("Annonce supprimée avec succès")
 });
 
 app.put("/ads/:id", async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    let ad = await Ad.findOneByOrFail({ id })
+    let ad = await Ad.findOneByOrFail({ id });
     ad = Object.assign(ad, req.body);
     const result = await ad.save();
     res.send(result);
@@ -91,16 +78,73 @@ app.put("/ads/:id", async (req, res) => {
   }
 });
 
+app.delete("/ads/:id", async (req, res) => {
+  const result = await Ad.delete(req.params.id);
+  console.log(result);
+  res.send("Annonce supprimée avec succès");
+});
+
+// CATEGORIES
+app.get("/categories", async (req, res) => {
+  let categories: Category[];
+  if (req.query.name) {
+    categories = await Category.find({
+      where: {
+        name: Like(`${req.query.name as string}%`),
+      },
+    });
+  } else {
+    categories = await Category.find();
+  }
+  res.send(categories);
+});
+
+app.post("/categories", async (req, res) => {
+  const category = new Category();
+  category.name = req.body.name;
+
+  const result = await category.save();
+  res.send(JSON.stringify(result));
+});
+
+// TAGS
+app.get("/tags", async (req, res) => {
+  let tags: Tag[];
+  if (req.query.name) {
+    tags = await Tag.find({
+      where: {
+        name: Like(`${req.query.name as string}%`),
+      },
+    });
+  } else {
+    tags = await Tag.find();
+  }
+  res.send(tags);
+});
+
 app.post("/tags", async (req, res) => {
   const tag = new Tag();
-
   tag.name = req.body.name;
 
   const result = await tag.save();
-  res.send(JSON.stringify(result))
-})
+  res.send(JSON.stringify(result));
+});
 
-app.listen(port, async () => {
-  await dataSourceGoodCorner.initialize();
-  console.log(`Example app listening on port ${port}`)
+app.put("/tags/:id", async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    let tag = await Tag.findOneByOrFail({ id });
+    tag = Object.assign(tag, req.body);
+    const result = await tag.save();
+    res.send(result);
+  } catch (err) {
+    console.log(err);
+    res.status(400).send("Invalid request");
+  }
+});
+
+app.delete("/tags/:id", async (req, res) => {
+  const result = await Tag.delete(req.params.id);
+  console.log(result);
+  res.send("Tag supprimée avec succès");
 });
