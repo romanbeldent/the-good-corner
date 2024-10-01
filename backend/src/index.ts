@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import express from "express";
+import cors from "cors";
 import { dataSourceGoodCorner } from "./config/db";
 import { Ad } from "./entities/Ad";
 import { validate } from "class-validator";
@@ -10,6 +11,7 @@ import { Tag } from "./entities/Tag";
 const app = express();
 const port = 3000;
 
+app.use(cors());
 app.use(express.json());
 
 app.listen(port, async () => {

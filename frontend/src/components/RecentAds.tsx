@@ -1,56 +1,46 @@
+import { useEffect, useState } from "react";
 import AdCard, { AdCardProps } from "./AdCard";
+import { API_URL } from "../config";
+import axios from "axios";
 
 const RecentAds = () => {
-  const adsData: AdCardProps[] = [
-    {
-      imgUrl: "/images/table.webp",
-      title: "Table",
-      link: "/ads/table",
-      price: 120,
-    },
-    {
-      imgUrl: "/images/bougie.webp",
-      title: "Bougie",
-      link: "/ads/bougie",
-      price: 30,
-    },
-    {
-      imgUrl: "/images/vaisselier.webp",
-      title: "Vaisselier",
-      link: "/ads/vaisselier",
-      price: 80,
-    },
-    {
-      imgUrl: "/images/dame-jeanne.webp",
-      title: "Dame-jeanne",
-      link: "/ads/dame-jeanne",
-      price: 80,
-    },
-    {
-      imgUrl: "/images/porte-magazine.webp",
-      title: "Porte-magazine",
-      link: "/ads/porte-magazine",
-      price: 40,
-    },
-    {
-      imgUrl: "/images/vide-poche.webp",
-      title: "Vide-poche",
-      link: "/ads/vide-poche",
-      price: 120,
-    },
-  ];
+  const [ads, setAds] = useState<AdCardProps[]>([]);
+  const [total, setTotal] = useState(0);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await axios.get(`${API_URL}/ads`);
+        console.log(result.data);
+        setAds(result.data);
+      } catch (err) {
+        console.log("err", err);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <>
       <h2>Annonces récentes</h2>
+      <p>Total: {total}</p>
       <section className="recent-ads">
-        {adsData.map((el) => (
-          <AdCard
-            key={el.title}
-            title={el.title}
-            imgUrl={el.imgUrl}
-            link={el.link}
-            price={el.price}
-          />
+        {ads.map((el) => (
+          <div key={el.id}>
+            <AdCard
+              id={el.id}
+              title={el.title}
+              picture={el.picture}
+              link={el.link}
+              price={el.price}
+              category={el.category}
+            />
+            <button
+              onClick={() => {
+                setTotal(total + el.price);
+              }}
+            >
+              Add to total
+            </button>
+          </div>
         ))}
       </section>
     </>
