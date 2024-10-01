@@ -9,9 +9,27 @@ const NewAdFormPage = () => (
     }}
   >
     <label>
-      Titre de l'annonce
+      Titre de l'annonce:
       <br />
-      <input className="text-field" name="titre" />
+      <input className="text-field" type="text" name="titre" />
+    </label>
+    <br />
+    <label>
+      Description:
+      <br />
+      <input className="text-field" type="text" name="description" />
+    </label>
+    <br />
+    <label>
+      Prix:
+      <br />
+      <input className="text-field" type="number" name="price" />
+    </label>
+    <br />
+    <label>
+      URL de l'image:
+      <br />
+      <input className="text-field" type="text" name="link" />
     </label>
 
     <button className="button">Submit</button>
