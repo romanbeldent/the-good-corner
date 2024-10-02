@@ -19,6 +19,7 @@ const RecentAds = () => {
     fetchData();
   }, []);
   return (
+    
     <>
       <h2>Annonces récentes</h2>
       <p>Total: {total}</p>
