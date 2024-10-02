@@ -1,7 +1,13 @@
 GET http://localhost:3000/ads
 
 ###
+GET http://localhost:3000/ads/15
+
+###
 GET http://localhost:3000/ads?category=autre
+
+###
+GET http://localhost:3000/ads?title=vélo
 
 ###
 GET http://localhost:3000/categories?name=a

@@ -1,24 +1,28 @@
+import { Link } from "react-router-dom";
+
 export type AdCardProps = {
   id: number;
   title: string;
   picture: string;
+  description?: string;
   price: number;
-  link: string;
+  owner?: string;
   category: { id: number; name: string };
+  createdAt?: string;
 };
 
-const AdCard = ({ title, picture, price, link, category }: AdCardProps) => {
+const AdCard = ({ id, title, picture, price, category }: AdCardProps) => {
   return (
     <div className="ad-card-container">
-      <a className="ad-card-link" href={link}>
+      <Link className="ad-card-link" to={`/ad/${id}`} >
         <img className="ad-card-image" src={picture} />
         <div className="ad-card-text">
           <div className="ad-card-title">{title}</div>
           <div className="ad-card-price">{price} €</div>
           <div className="ad-card-category">{category?.name} </div>
         </div>
-      </a>
-    </div>
+      </Link >
+    </div >
   );
 };
 

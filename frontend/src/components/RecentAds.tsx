@@ -19,7 +19,7 @@ const RecentAds = () => {
     fetchData();
   }, []);
   return (
-    
+
     <>
       <h2>Annonces récentes</h2>
       <p>Total: {total}</p>
@@ -30,7 +30,6 @@ const RecentAds = () => {
               id={el.id}
               title={el.title}
               picture={el.picture}
-              link={el.link}
               price={el.price}
               category={el.category}
             />
@@ -41,6 +40,7 @@ const RecentAds = () => {
             >
               Add to total
             </button>
+            {/* <button onClick={axios.delete(`${API_URL} / ${el.id}`)}>Supprimer</button> */}
           </div>
         ))}
       </section>

@@ -30,12 +30,32 @@ app.get("/ads", async (req, res) => {
       where: {
         category: { name: req.query.category as string },
       },
-      relations: { category: true, tags: true },
+      relations: { tags: true }
+    });
+  }
+  if (req.query.title) {
+    ads = await Ad.find({
+      where: {
+        title: Like(`${req.query.title as string}%`),
+      },
     });
   } else {
-    ads = await Ad.find({ relations: { category: true, tags: true } });
+    ads = await Ad.find({ 
+      relations: { tags: true }, 
+      order: { id: "DESC" } });
   }
   res.send(ads);
+});
+
+app.get("/ad/:id", async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    let ad = await Ad.findOneByOrFail({ id : id });
+    res.send(ad);
+  } catch (err) {
+    console.log(err);
+    res.status(400).send("Invalid request");
+  }
 });
 
 app.get("/ads/", async (_req, res) => {
@@ -52,7 +72,7 @@ app.post("/ads", async (req, res) => {
   ad.picture = req.body.picture;
   ad.location = req.body.location;
   ad.createdAt = new Date();
-  ad.category = req.body.categoryId ? req.body.categoryId : 1;
+  ad.category = req.body.category ? req.body.category : 1;
   ad.tags = req.body.tags;
 
   const errors = await validate(ad);
@@ -67,7 +87,7 @@ app.post("/ads", async (req, res) => {
   }
 });
 
-app.put("/ads/:id", async (req, res) => {
+app.put("/ad/:id", async (req, res) => {
   try {
     const id = parseInt(req.params.id);
     let ad = await Ad.findOneByOrFail({ id });
@@ -80,7 +100,7 @@ app.put("/ads/:id", async (req, res) => {
   }
 });
 
-app.delete("/ads/:id", async (req, res) => {
+app.delete("/ad/:id", async (req, res) => {
   const result = await Ad.delete(req.params.id);
   console.log(result);
   res.send("Annonce supprimée avec succès");

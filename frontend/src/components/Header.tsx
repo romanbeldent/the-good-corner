@@ -2,8 +2,10 @@ import axios from "axios";
 import CategoryCard, { CategoryProps } from "./CategoryCard";
 import { API_URL } from "../config";
 import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
   const [categories, setCategories] = useState<CategoryProps[]>([]);
   useEffect(() => {
     const fetchCategories = async () => {
@@ -26,8 +28,21 @@ const Header = () => {
             <span className="desktop-long-label">THE GOOD CORNER</span>
           </a>
         </h1>
-        <form className="text-field-with-button">
-          <input className="text-field main-search-field" type="search" />
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form as HTMLFormElement);
+            const formJson = Object.fromEntries(formData.entries());
+            console.log(formJson)
+            navigate(`/ad/search/${formJson.keyword}`);
+          }}
+          className="text-field-with-button">
+          <input
+            className="text-field main-search-field"
+            type="search"
+            name="keyword"
+          />
           <button className="button button-primary">
             <svg
               aria-hidden="true"
@@ -44,10 +59,11 @@ const Header = () => {
             </svg>
           </button>
         </form>
-        <a href="/post-ad" className="button link-button">
+
+        <Link className="button link-button" to={`/ad/new`} >
           <span className="mobile-short-label">Publier</span>
           <span className="desktop-long-label">Publier une annonce</span>
-        </a>
+        </Link >
       </div>
       <nav className="categories-navigation">
         {categories.map((el) => {
