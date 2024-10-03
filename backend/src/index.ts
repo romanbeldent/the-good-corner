@@ -32,8 +32,7 @@ app.get("/ads", async (req, res) => {
       },
       relations: { tags: true }
     });
-  }
-  if (req.query.title) {
+  } else if (req.query.title) {
     ads = await Ad.find({
       where: {
         title: Like(`${req.query.title as string}%`),
@@ -121,12 +120,29 @@ app.get("/categories", async (req, res) => {
   res.send(categories);
 });
 
+app.get("/category/:id", async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    let category = await Category.findOneByOrFail({ id : id });
+    res.send(category);
+  } catch (err) {
+    console.log(err);
+    res.status(400).send("Invalid request");
+  }
+});
+
 app.post("/categories", async (req, res) => {
   const category = new Category();
   category.name = req.body.name;
 
   const result = await category.save();
   res.send(JSON.stringify(result));
+});
+
+app.delete("/categories/:id", async (req, res) => {
+  const result = await Category.delete(req.params.id);
+  console.log(result);
+  res.send("Catégorie supprimée avec succès");
 });
 
 // TAGS

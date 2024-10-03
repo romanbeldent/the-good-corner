@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export type CategoryProps = {
   id: number;
   name: string;
@@ -6,9 +8,9 @@ export type CategoryProps = {
 const CategoryCard = ({ name }: CategoryProps) => {
   return (
     <>
-      <a href="" className="category-navigation-link">
+      <Link className="category-navigation-link" to={`/category/${name}`} >
         {name}
-      </a>{" "}
+      </Link>
     </>
   );
 };

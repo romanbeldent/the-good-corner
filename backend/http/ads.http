@@ -7,10 +7,10 @@ GET http://localhost:3000/ads/15
 GET http://localhost:3000/ads?category=autre
 
 ###
-GET http://localhost:3000/ads?title=vélo
+GET http://localhost:3000/ads?title=nouvelle
 
 ###
-GET http://localhost:3000/categories?name=a
+GET http://localhost:3000/categories?name=
 
 ###
 POST http://localhost:3000/ads
@@ -29,11 +29,17 @@ Content-type: application/json
   }
   
 ###
-PUT http://localhost:3000/ads/2
+PUT http://localhost:3000/ad/2
 Content-type: application/json
 
   {
-    "tag": [{"id":1},{"id":2},{"id":3}]
+    "title": "Objet test tag 10",
+    "description": "Nouvel objet mysterieux",
+    "owner": "mysterio@gmail.com",
+    "price": 999,
+    "picture":
+      "https://mystere.jpg",
+    "location": "Mystere",
   }
 
 ###

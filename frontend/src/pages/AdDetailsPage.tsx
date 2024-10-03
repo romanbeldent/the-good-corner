@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { API_URL } from "../config";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -44,7 +44,7 @@ const AdDetailsPage = () => {
           </div>
           <hr className="separator" />
           <div className="ad-details-owner">
-            Annoncée publiée par <b>{adDetails?.owner}</b> le {new Date(adDetails?.createdAt as string).toLocaleString()}.
+            Annoncée publiée par <b>{adDetails?.owner}</b> le {new Date(adDetails?.createdAt as string).toLocaleString().slice(0, 9)}.
           </div>
           <a
             href="mailto:serge@serge.com"
@@ -63,9 +63,11 @@ const AdDetailsPage = () => {
               ></path>
             </svg>
             Envoyer un email</a>
-          <button onClick={deleteAd}>Supprimer l'annonce</button>
+          <Link className="button button-primary link-button" to={`/ad/edit/${id}`}>
+            Modifier l'annonce</Link>
+          <button className="button button-primary link-button" onClick={deleteAd}>Supprimer l'annonce</button>
         </div>
-      </section>
+      </section >
     </>
   );
 };
