@@ -47,7 +47,7 @@ const NewAdFormPage = () => {
 
   const onSubmit: SubmitHandler<AdCardProps> = async (data) => {
     try {
-      // console.log("data from react hook form", data);
+      console.log("data from react hook form", data);
       const dataForBackend = {
         ...data,
         tags: data.tags.map((el) => ({ id: el })),
