@@ -73,7 +73,6 @@ app.post("/ads", async (req, res) => {
   ad.createdAt = new Date();
   ad.category = req.body.category ? req.body.category : 1;
   ad.tags = req.body.tags;
-  console.log(req.body)
 
   const errors = await validate(ad);
   if (errors.length > 0) {
