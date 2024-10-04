@@ -73,6 +73,7 @@ app.post("/ads", async (req, res) => {
   ad.createdAt = new Date();
   ad.category = req.body.category ? req.body.category : 1;
   ad.tags = req.body.tags;
+  console.log(req.body)
 
   const errors = await validate(ad);
   if (errors.length > 0) {
@@ -80,9 +81,13 @@ app.post("/ads", async (req, res) => {
     res
       .status(400)
       .send("La description doit faire entre 10 et 100 caractères");
-  } else {
-    const result = await ad.save();
-    res.send(JSON.stringify(result));
+  } else { 
+    try {
+      const result = await ad.save();
+      res.send(JSON.stringify(result));
+    } catch (err) {
+      console.log("err", err);
+    }
   }
 });
 

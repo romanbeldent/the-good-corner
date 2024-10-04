@@ -24,8 +24,8 @@ Content-type: application/json
     "picture":
       "https://mystere.jpg",
     "location": "Mystere",
-    "category": 1,
-    "tags": [{"id":11}]
+    "category": 4,
+    "tags": [{"id":3}]
   }
   
 ###

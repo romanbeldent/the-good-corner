@@ -9,5 +9,5 @@ POST http://localhost:3000/categories
 Content-type: application/json
 
 {
-    "name":"Chaussure"
+    "name":"Test cat2"
 }
