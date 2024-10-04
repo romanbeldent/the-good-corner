@@ -132,11 +132,14 @@ app.get("/category/:id", async (req, res) => {
 });
 
 app.post("/categories", async (req, res) => {
-  const category = new Category();
-  category.name = req.body.name;
-
-  const result = await category.save();
-  res.send(JSON.stringify(result));
+  try {
+    const category = new Category();
+    category.name = req.body.name;
+    const result = await category.save();
+    res.send(JSON.stringify(result));
+  } catch (err) {
+    console.log("err", err)
+  }
 });
 
 app.delete("/categories/:id", async (req, res) => {

@@ -29,17 +29,11 @@ Content-type: application/json
   }
   
 ###
-PUT http://localhost:3000/ad/2
+PUT http://localhost:3000/ad/58
 Content-type: application/json
 
   {
-    "title": "Objet test tag 10",
-    "description": "Nouvel objet mysterieux",
-    "owner": "mysterio@gmail.com",
-    "price": 999,
-    "picture":
-      "https://mystere.jpg",
-    "location": "Mystere",
+    "picture": "https://medias4.ubaldi.com/visuels/33058/pr_FWM200D12-43.jpg"
   }
 
 ###
