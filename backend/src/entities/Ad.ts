@@ -1,7 +1,8 @@
 import { Length } from "class-validator";
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable } from "typeorm";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable, OneToMany } from "typeorm";
 import { Category } from "./Category";
 import { Tag } from "./Tag";
+import { Picture } from "./Picture";
 import { Field, ObjectType } from "type-graphql";
 
 @ObjectType()
@@ -29,9 +30,11 @@ export class Ad extends BaseEntity {
     @Column()
     price: number;
 
-    @Field()
-    @Column()
-    picture: string;
+    @OneToMany(() => Picture, (picture) => picture.ad, {
+        cascade: true,
+        eager: true,
+    })
+    pictures: Picture[];
 
     @Field()
     @Column()
@@ -41,6 +44,7 @@ export class Ad extends BaseEntity {
     @Column()
     createdAt: Date;
 
+    @Field({ nullable: true })
     @ManyToOne(() => Category, category => category.ads, { eager: true })
     category: Category;
 

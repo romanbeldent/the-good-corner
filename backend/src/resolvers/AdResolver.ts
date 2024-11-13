@@ -1,3 +1,4 @@
+import AdInput from "../inputs/AdInput";
 import { Ad } from "../entities/Ad";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 
@@ -21,25 +22,21 @@ export class AdResolver {
     }
 
     @Mutation(() => Ad)
-    async createNewAd(
-        @Arg("title") title: string,
-        @Arg("description") description: string,
-        @Arg("owner") owner: string,
-        @Arg("price") price: number,
-        @Arg("picture") picture: string,
-        @Arg("location") location: string,
-    ) {
+    async createNewAd(@Arg("data") newAdData: AdInput) {
         const ad = new Ad();
-        ad.title = title;
-        ad.description = description;
-        ad.owner = owner;
-        ad.price = price;
-        ad.picture = picture;
-        ad.location = location;
-        ad.createdAt = new Date();
+
+        ad.title = newAdData.title;
+        ad.description = newAdData.description;
+        ad.owner = newAdData.owner;
+        ad.price = newAdData.price;
+        ad.location = newAdData.location;
+        ad.createdAt = newAdData.createdAt;
+        ad.category = newAdData.category;
 
         const result = await ad.save();
-        return result;
+
+        const adWithCategory = await Ad.findOneByOrFail({ id: result.id })
+        return adWithCategory;
     }
 }
 
