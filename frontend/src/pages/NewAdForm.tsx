@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AdCardProps } from "../components/AdCard";
 
-
 type Tags = {
   id: number;
   name: string;
@@ -44,7 +43,6 @@ const NewAdFormPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<AdCardProps>();
-
   const onSubmit: SubmitHandler<AdCardProps> = async (data) => {
     try {
       console.log("data from react hook form", data);
@@ -53,7 +51,7 @@ const NewAdFormPage = () => {
         tags: data.tags.map((el) => ({ id: el })),
       };
       console.log(dataForBackend);
-      await axios.post(`http://localhost:3000/ads`, dataForBackend);
+      await axios.post(`${API_URL}/ads`, dataForBackend);
       toast.success("Ad has been added");
       navigate("/");
     } catch (err) {

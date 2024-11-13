@@ -9,6 +9,6 @@ export class Tag extends BaseEntity {
     @Column()
     name: string;
 
-    @ManyToMany(() => Ad, ad => ad.tags, { onDelete: "CASCADE" })
+    @ManyToMany(() => Ad, ad => ad.tags)
     ads: Ad[];
 }
