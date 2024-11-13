@@ -39,9 +39,10 @@ app.get("/ads", async (req, res) => {
       },
     });
   } else {
-    ads = await Ad.find({ 
-      relations: { tags: true }, 
-      order: { id: "DESC" } });
+    ads = await Ad.find({
+      relations: { tags: true },
+      order: { id: "DESC" }
+    });
   }
   res.send(ads);
 });
@@ -49,7 +50,7 @@ app.get("/ads", async (req, res) => {
 app.get("/ad/:id", async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    let ad = await Ad.findOneByOrFail({ id : id });
+    let ad = await Ad.findOneByOrFail({ id: id });
     res.send(ad);
   } catch (err) {
     console.log(err);
@@ -80,7 +81,7 @@ app.post("/ads", async (req, res) => {
     res
       .status(400)
       .send("La description doit faire entre 10 et 100 caractères");
-  } else { 
+  } else {
     try {
       const result = await ad.save();
       res.send(JSON.stringify(result));
@@ -127,7 +128,7 @@ app.get("/categories", async (req, res) => {
 app.get("/category/:id", async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    let category = await Category.findOneByOrFail({ id : id });
+    let category = await Category.findOneByOrFail({ id: id });
     res.send(category);
   } catch (err) {
     console.log(err);
