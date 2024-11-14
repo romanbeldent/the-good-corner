@@ -13,6 +13,24 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+client
+  .query({
+    query: gql`
+      query AllAds {
+  AllAds {
+    id
+    title
+    description
+    owner
+    price
+    location
+    createdAt
+  }
+}
+    `,
+  })
+  .then((result) => console.log(result));
+
 createRoot(document.getElementById("root")!).render(
   <ApolloProvider client={client}>
     <StrictMode>
