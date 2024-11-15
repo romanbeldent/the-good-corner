@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
 
+// Ad queries
 export const GET_ADS = gql`
     query AllAds {
         AllAds {
@@ -13,7 +14,7 @@ export const GET_ADS = gql`
                 name
       }
     }
-  }
+}
 `;
 
 export const GET_AD = gql`
@@ -32,27 +33,31 @@ export const GET_AD = gql`
 }
 `;
 
-export const CREATE_AD = gql`
-    mutation Mutation($data: AdInput!) {
-        createNewAd(data: $data) {
-            title
-            price
-            pictures {
-                url
-            }
-            owner
-            location
-            description
-            createdAt
-            category {
-                id
-            }
-    }
-}
-`;
-
 export const DELETE_AD = gql`
     mutation DeleteAd($deleteAdId: Float!) {
         deleteAd(id: $deleteAdId)
     }
+`;
+
+// Category queries
+export const GET_CATEGORIES = gql`
+  query AllCategories {
+  AllCategories {
+    name
+  }
+}
+`;
+
+// Tags and Categories
+export const GET_TAGS_AND_CATEGORIES = gql`
+query AllTagsAndCategories {
+    AllTags {
+        id
+        name
+    }
+    AllCategories {
+        id
+        name
+    }
+  }
 `;

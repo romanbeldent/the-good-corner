@@ -33,6 +33,7 @@ export class AdResolver {
                 pictures.push(newPicture);
             })
         }
+
         const newAdToSave = Ad.create({ ...newAdData, pictures });
         const result = await newAdToSave.save();
 

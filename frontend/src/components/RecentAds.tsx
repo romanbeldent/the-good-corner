@@ -1,4 +1,4 @@
-import { GET_ADS } from "../queries/ads";
+import { GET_ADS } from "../queries/queries";
 import AdCard, { AdCardProps } from "./AdCard";
 import { useQuery } from "@apollo/client";
 

@@ -1,4 +1,4 @@
-import { Category } from "src/entities/Category";
+import { Category } from "../entities/Category";
 import { Field, InputType } from "type-graphql";
 
 @InputType()

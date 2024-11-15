@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { DELETE_AD, GET_AD } from "../queries/ads";
+import { DELETE_AD, GET_AD } from "../queries/queries";
 
 const AdDetailsPage = () => {
   const { id } = useParams();

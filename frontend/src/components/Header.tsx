@@ -2,7 +2,7 @@ import axios from "axios";
 import CategoryCard, { CategoryProps } from "./CategoryCard";
 import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { GET_CATEGORIES } from "../queries/categories";
+import { GET_CATEGORIES } from "../queries/queries";
 
 const Header = () => {
   const navigate = useNavigate();

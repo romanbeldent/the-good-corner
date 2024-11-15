@@ -1,63 +1,58 @@
-import axios from "axios";
-import { API_URL } from "../config";
 import { CategoryProps } from "../components/CategoryCard";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { AdCardProps } from "../components/AdCard";
+import { useMutation, useQuery } from "@apollo/client";
+import { GET_TAGS_AND_CATEGORIES } from "../queries/queries";
+import { CREATE_AD } from "../queries/mutations";
+import { TagProps } from "../components/TagCard";
 
-type Tags = {
-  id: number;
-  name: string;
+type Inputs = {
+  title: string;
+  description: string;
+  owner: string;
+  price: string;
+  picturesUrls: string[];
+  location: string;
+  createdAt: Date;
+  category: number;
+  tags: number[];
 };
 
 const NewAdFormPage = () => {
   const navigate = useNavigate();
-  const [tags, setTags] = useState([] as Tags[]);
-  const [categories, setCategory] = useState<CategoryProps[]>([]);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const result = await axios.get(`${API_URL}/categories`);
-        setCategory(result.data);
-      } catch (err) {
-        console.log("err", err);
-      }
-    };
-    const fetchTags = async () => {
-      try {
-        const result = await axios.get(`${API_URL}/tags`);
-        setTags(result.data);
-      } catch (err) {
-        console.log("err", err);
-      }
-    };
-    fetchTags();
-    fetchCategories();
-  }, []);
+  const { loading, error, data } = useQuery(GET_TAGS_AND_CATEGORIES);
+  const [createAd] = useMutation(CREATE_AD);
+  console.log(data);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<AdCardProps>();
-  const onSubmit: SubmitHandler<AdCardProps> = async (data) => {
+  } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
       console.log("data from react hook form", data);
       const dataForBackend = {
         ...data,
-        tags: data.tags.map((el) => ({ id: el })),
-      };
-      console.log(dataForBackend);
-      await axios.post(`${API_URL}/ads`, dataForBackend);
+        price: parseInt(data.price),
+        createdAt: data.createdAt + "T00:00:00.000Z",
+        tags: parseInt(data.tags)
+      }
+      createAd({
+        variables: { data: dataForBackend },
+      })
       toast.success("Ad has been added");
       navigate("/");
     } catch (err) {
       console.log("err", err)
     }
   };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error : {error.message}</p>;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -101,7 +96,7 @@ const NewAdFormPage = () => {
       <label>
         URL de l'image:
         <br />
-        <input className="text-field" {...register("picture")} />
+        <input className="text-field" {...register("picturesUrls")} />
       </label>
       <br />
       <label>
@@ -117,7 +112,7 @@ const NewAdFormPage = () => {
       </label>
       <br />
       <select {...register("category")}>
-        {categories.map((el) => (
+        {data.AllCategories.map((el: CategoryProps) => (
           <Fragment key={el.id}>
             <option value={el.id} key={el.id} >
               {el.name}
@@ -130,7 +125,7 @@ const NewAdFormPage = () => {
         <br />
         Tags :
         <br />
-        {tags.map((el) => (
+        {data.AllTags.map((el: TagProps) => (
           <Fragment key={el.id}>
             <label>
               <input type="checkbox" value={el.id} {...register("tags")} />
