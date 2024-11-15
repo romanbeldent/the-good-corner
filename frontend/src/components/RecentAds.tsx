@@ -1,45 +1,26 @@
-import { useEffect, useState } from "react";
+import { GET_ADS } from "../queries/ads";
 import AdCard, { AdCardProps } from "./AdCard";
-import { API_URL } from "../config";
-import axios from "axios";
+import { useQuery } from "@apollo/client";
 
 const RecentAds = () => {
-  const [ads, setAds] = useState<AdCardProps[]>([]);
-  const [total, setTotal] = useState(0);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await axios.get(`${API_URL}/ads`);
-        console.log(result.data);
-        setAds(result.data);
-      } catch (err) {
-        console.log("err", err);
-      }
-    };
-    fetchData();
-  }, []);
-  return (
+  const { loading, error, data } = useQuery(GET_ADS);
 
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error : {error.message}</p>;
+
+  return (
     <>
       <h2>Annonces récentes</h2>
-      <p>Total: {total}</p>
       <section className="recent-ads">
-        {ads.map((el) => (
+        {data.AllAds.map((el: AdCardProps) => (
           <div key={el.id}>
             <AdCard
               id={el.id}
               title={el.title}
-              picture={el.picture}
+              picture={el.pictures[0]?.url}
               price={el.price}
               category={el.category}
             />
-            <button
-              onClick={() => {
-                setTotal(total + el.price);
-              }}
-            >
-              Add to total
-            </button>
           </div>
         ))}
       </section>

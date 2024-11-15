@@ -1,24 +1,17 @@
 import axios from "axios";
 import CategoryCard, { CategoryProps } from "./CategoryCard";
-import { API_URL } from "../config";
-import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useQuery } from "@apollo/client";
+import { GET_CATEGORIES } from "../queries/categories";
 
 const Header = () => {
   const navigate = useNavigate();
-  const [categories, setCategories] = useState<CategoryProps[]>([]);
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const result = await axios.get(`${API_URL}/categories`);
-        console.log("result", result);
-        setCategories(result.data);
-      } catch (err) {
-        console.log("err", err);
-      }
-    };
-    fetchCategories();
-  }, []);
+
+  const { loading, error, data } = useQuery(GET_CATEGORIES)
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error : {error.message}</p>;
+
   return (
     <header className="header">
       <div className="main-menu">
@@ -66,7 +59,7 @@ const Header = () => {
         </Link >
       </div>
       <nav className="categories-navigation">
-        {categories.map((el) => {
+        {data.AllCategories.map((el: CategoryProps) => {
           return <CategoryCard key={el.id} id={el.id} name={el.name} />;
         })}
       </nav>

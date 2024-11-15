@@ -1,50 +1,52 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { API_URL } from "../config";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { AdCardProps } from "../components/AdCard";
+import { useQuery } from "@apollo/client";
+import { DELETE_AD, GET_AD } from "../queries/ads";
 
 const AdDetailsPage = () => {
   const { id } = useParams();
-  const [adDetails, setAdDetails] = useState<AdCardProps>();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchAdDetails = async () => {
-      try {
-        const result = await axios.get(`${API_URL}/ad/${id}`);
-        setAdDetails(result.data)
-      } catch (err) {
-        console.log("err", err);
-      }
-    }
-    fetchAdDetails();
-  }, [id]);
+  const { loading, error, data } = useQuery(GET_AD, {
+    variables: { getAdByIdId: Number(id) },
+  });
 
   const deleteAd = async () => {
     try {
-      await axios.delete(`${API_URL}/ad/${id}`);
+      await useQuery(DELETE_AD, {
+        variables: { id: Number(id) }
+      });
       navigate(`/`);
     } catch (err) {
       console.log("err", err);
     }
   }
 
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error : {error.message}</p>;
+  // const navigate = useNavigate();
+
+  // const deleteAd = async () => {
+  //   try {
+  //     await axios.delete(`${API_URL}/ad/${id}`);
+  //     navigate(`/`);
+  //   } catch (err) {
+  //     console.log("err", err);
+  //   }
+  // }
+
   return (
     <>
-      <h2 className="ad-details-title">{adDetails?.title}</h2>
+      <h2 className="ad-details-title">{data.getAdById?.title}</h2>
       <section className="ad-details">
         <div className="ad-details-image-container">
-          <img className="ad-details-image" src={adDetails?.picture} />
+          <img className="ad-details-image" src={data.getAdById?.pictures[0].url} />
         </div>
         <div className="ad-details-info">
-          <div className="ad-details-price">{adDetails?.price} €</div>
+          <div className="ad-details-price">{data.getAdById?.price} €</div>
           <div className="ad-details-description">
-            {adDetails?.description}
+            {data.getAdById?.description}
           </div>
           <hr className="separator" />
           <div className="ad-details-owner">
-            Annoncée publiée par <b>{adDetails?.owner}</b> le {new Date(adDetails?.createdAt as string).toLocaleString().slice(0, 9)}.
+            Annoncée publiée par <b>{data.getAdById?.owner}</b> le {new Date(data.getAdById?.createdAt as string).toLocaleString().slice(0, 9)}.
           </div>
           <a
             href="mailto:serge@serge.com"
