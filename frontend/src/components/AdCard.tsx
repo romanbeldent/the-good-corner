@@ -7,10 +7,10 @@ export type AdCardProps = {
   description?: string;
   price: number;
   owner?: string;
-  category: { id: number; name: string };
+  category: { id: number; name: string } | undefined | null;
   location?: string;
   createdAt?: string;
-  tags?: number[];
+  tags?: { id: number; name: string } | undefined | null;
 };
 
 const AdCard = ({ id, title, picture, price, category }: AdCardProps) => {

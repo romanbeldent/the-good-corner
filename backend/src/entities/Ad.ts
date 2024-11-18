@@ -50,8 +50,8 @@ export class Ad extends BaseEntity {
     @ManyToOne(() => Category, category => category.ads, { eager: true })
     category: Category;
 
-    @Field(() => Tag, { nullable: true })
-    @ManyToMany(() => Tag, tag => tag.ads)
+    @Field(() => [Tag], { nullable: true })
+    @ManyToMany(() => Tag, tag => tag.ads, { eager: true })
     @JoinTable()
     tags: Tag[];
 }
