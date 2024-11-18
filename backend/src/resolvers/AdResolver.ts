@@ -26,8 +26,6 @@ export class AdResolver {
     async createNewAd(@Arg("data") newAdData: AdInput) {
         const newAdToSave = Ad.create({
             ...newAdData,
-            pictures: newAdData.picturesUrls,
-            tags: newAdData.tags.map((el) => ({ id: parseInt(el) }))
         });
 
         const result = await newAdToSave.save();
