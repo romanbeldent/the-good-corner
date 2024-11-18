@@ -63,7 +63,9 @@ const NewAdFormPage = () => {
         ...data,
         price: parseInt(data.price),
         createdAt: data.createdAt + "T00:00:00.000Z",
+        picturesUrls: data.picturesUrls,
         tags: data.tags ? data.tags : [],
+        category: data.category.toString(),
       }
       createAd({
         variables: { data: dataForBackend },
@@ -327,7 +329,7 @@ const NewAdFormPage = () => {
           </>
           <br />
           <>
-            {data.AllTags.map((tag) => (
+            {data.AllTags.map((tag: TagProps) => (
               <label key={tag.id}>
                 <input type="checkbox" value={tag.id} {...register("tags")} />
                 {tag.name}

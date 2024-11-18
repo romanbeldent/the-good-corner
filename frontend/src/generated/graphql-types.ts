@@ -28,7 +28,7 @@ export type Ad = {
   owner: Scalars['String']['output'];
   pictures: Array<Picture>;
   price: Scalars['Float']['output'];
-  tags?: Maybe<Tag>;
+  tags?: Maybe<Array<Tag>>;
   title: Scalars['String']['output'];
 };
 
@@ -38,9 +38,9 @@ export type AdInput = {
   description: Scalars['String']['input'];
   location: Scalars['String']['input'];
   owner: Scalars['String']['input'];
-  picturesUrls?: InputMaybe<Array<Scalars['String']['input']>>;
+  picturesUrls?: InputMaybe<Array<PictureInput>>;
   price: Scalars['Float']['input'];
-  tags: Array<Scalars['ID']['input']>;
+  tags?: InputMaybe<Array<Scalars['String']['input']>>;
   title: Scalars['String']['input'];
 };
 
@@ -100,6 +100,10 @@ export type Picture = {
   url: Scalars['String']['output'];
 };
 
+export type PictureInput = {
+  url: Scalars['String']['input'];
+};
+
 export type Query = {
   __typename?: 'Query';
   AllAds: Array<Ad>;
@@ -146,19 +150,19 @@ export type MutationMutationVariables = Exact<{
 }>;
 
 
-export type MutationMutation = { __typename?: 'Mutation', createNewAd: { __typename?: 'Ad', id: number, title: string, price: number, owner: string, location: string, description: string, createdAt: any, pictures: Array<{ __typename?: 'Picture', url: string }>, category?: { __typename?: 'Category', name: string, id: number } | null, tags?: { __typename?: 'Tag', name: string, id: number } | null } };
+export type MutationMutation = { __typename?: 'Mutation', createNewAd: { __typename?: 'Ad', id: number, title: string, price: number, owner: string, location: string, description: string, createdAt: any, pictures: Array<{ __typename?: 'Picture', url: string }>, category?: { __typename?: 'Category', name: string, id: number } | null, tags?: Array<{ __typename?: 'Tag', name: string, id: number }> | null } };
 
 export type AllAdsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllAdsQuery = { __typename?: 'Query', AllAds: Array<{ __typename?: 'Ad', id: number, title: string, description: string, owner: string, price: number, location: string, createdAt: any, pictures: Array<{ __typename?: 'Picture', id: number, url: string }>, category?: { __typename?: 'Category', id: number, name: string } | null, tags?: { __typename?: 'Tag', id: number, name: string } | null }> };
+export type AllAdsQuery = { __typename?: 'Query', AllAds: Array<{ __typename?: 'Ad', id: number, title: string, description: string, owner: string, price: number, location: string, createdAt: any, pictures: Array<{ __typename?: 'Picture', id: number, url: string }>, category?: { __typename?: 'Category', id: number, name: string } | null, tags?: Array<{ __typename?: 'Tag', id: number, name: string }> | null }> };
 
 export type GetAdByIdQueryVariables = Exact<{
   getAdByIdId: Scalars['Float']['input'];
 }>;
 
 
-export type GetAdByIdQuery = { __typename?: 'Query', getAdById: { __typename?: 'Ad', id: number, title: string, description: string, owner: string, price: number, location: string, createdAt: any, pictures: Array<{ __typename?: 'Picture', id: number, url: string }>, category?: { __typename?: 'Category', id: number, name: string } | null, tags?: { __typename?: 'Tag', id: number, name: string } | null } };
+export type GetAdByIdQuery = { __typename?: 'Query', getAdById: { __typename?: 'Ad', id: number, title: string, description: string, owner: string, price: number, location: string, createdAt: any, pictures: Array<{ __typename?: 'Picture', id: number, url: string }>, category?: { __typename?: 'Category', id: number, name: string } | null, tags?: Array<{ __typename?: 'Tag', id: number, name: string }> | null } };
 
 export type DeleteAdMutationVariables = Exact<{
   deleteAdId: Scalars['Float']['input'];

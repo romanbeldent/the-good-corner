@@ -9,7 +9,7 @@ export class AdResolver {
     async AllAds() {
         const ads = await Ad.find({
             order: {
-                category: { name: "ASC" }
+                id: "DESC"
             },
         })
         return ads;
