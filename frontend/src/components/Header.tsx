@@ -26,8 +26,9 @@ const Header = () => {
             const form = e.target;
             const formData = new FormData(form as HTMLFormElement);
             const formJson = Object.fromEntries(formData.entries());
-            console.log(formJson)
-            navigate(`/ad/search/${formJson.keyword}`);
+            if (formJson.keyword) {
+              navigate(`/ad/search/${formJson.keyword}`);
+            }
           }}
           className="text-field-with-button">
           <input

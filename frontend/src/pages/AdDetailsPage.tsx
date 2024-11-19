@@ -21,7 +21,7 @@ const AdDetailsPage = () => {
         <h2 className="ad-details-title">{data.getAdById.title}</h2>
         <section className="ad-details">
           <div className="ad-details-image-container">
-            <img className="ad-details-image" src={data.getAdById.pictures[0].url} />
+            <img className="ad-details-image" src={data.getAdById.pictures?.at(0)?.url} />
           </div>
           <div className="ad-details-info">
             <div className="ad-details-price">{data.getAdById.price} €</div>

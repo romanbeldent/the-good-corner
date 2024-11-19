@@ -3,7 +3,7 @@ import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone'
 import { dataSourceGoodCorner } from './config/db';
 import { buildSchema } from 'type-graphql';
-import { AdResolver } from './resolvers/AdResolver';
+import AdResolver from './resolvers/AdResolver';
 import CategoryResolver from "./resolvers/CategoryResolver";
 import TagResolver from "./resolvers/TagResolver";
 

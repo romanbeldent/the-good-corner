@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export type AdCardProps = {
   id: number;
   title: string;
-  picture: string;
+  picture?: string;
   description?: string;
   price: number;
   owner?: string;
