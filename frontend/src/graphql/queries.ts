@@ -53,12 +53,6 @@ export const GET_AD_BY_ID = gql`
 }
 `;
 
-export const DELETE_AD = gql`
-    mutation DeleteAd($deleteAdId: Float!) {
-        deleteAd(id: $deleteAdId)
-    }
-`;
-
 // Category queries
 export const GET_CATEGORIES = gql`
   query AllCategories {

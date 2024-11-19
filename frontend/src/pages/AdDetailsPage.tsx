@@ -1,38 +1,19 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@apollo/client";
-import { DELETE_AD } from "../graphql/queries";
-import { useGetAdByIdQuery } from "../generated/graphql-types";
+import { useDeleteAdMutation, useGetAdByIdQuery } from "../generated/graphql-types";
+import { GET_ADS } from "../graphql/queries";
 
 const AdDetailsPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { loading, error, data } = useGetAdByIdQuery({
     variables: { getAdByIdId: Number(id) },
     skip: !id,
   });
 
-  const deleteAd = async () => {
-    try {
-      await useQuery(DELETE_AD, {
-        variables: { id: Number(id) }
-      });
-      navigate(`/`);
-    } catch (err) {
-      console.log("err", err);
-    }
-  }
+  const [deleteAdById] = useDeleteAdMutation();
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
-  // const navigate = useNavigate();
-
-  // const deleteAd = async () => {
-  //   try {
-  //     await axios.delete(`${API_URL}/ad/${id}`);
-  //     navigate(`/`);
-  //   } catch (err) {
-  //     console.log("err", err);
-  //   }
-  // }
 
   if (data) {
     return (
@@ -70,7 +51,19 @@ const AdDetailsPage = () => {
               Envoyer un email</a>
             <Link className="button button-primary link-button" to={`/ad/edit/${id}`}>
               Modifier l'annonce</Link>
-            <button className="button button-primary link-button" onClick={deleteAd}>Supprimer l'annonce</button>
+            <button
+              className="button button-primary link-button"
+              onClick={async () => {
+                if (id) {
+                  await deleteAdById({
+                    variables: { deleteAdId: parseInt(id) },
+                    refetchQueries: [GET_ADS],
+                    awaitRefetchQueries: true,
+                  });
+                  navigate("/");
+                }
+                ;
+              }}>Supprimer l'annonce</button>
           </div>
         </section >
       </>

@@ -4,8 +4,9 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import { TagProps } from "../components/TagCard";
-import { useAllTagsAndCategoriesQuery, useMutationMutation } from "../generated/graphql-types";
+import { useAllTagsAndCategoriesQuery, useCreateNewAdMutation } from "../generated/graphql-types";
 import { ErrorMessage } from "@hookform/error-message";
+import { GET_ADS } from "../graphql/queries";
 
 type Inputs = {
   title: string;
@@ -23,7 +24,7 @@ const NewAdFormPage = () => {
   const navigate = useNavigate();
 
   const { loading, error, data } = useAllTagsAndCategoriesQuery();
-  const [createAd] = useMutationMutation();
+  const [createAd] = useCreateNewAdMutation({ refetchQueries: [GET_ADS] });
 
   const {
     register,
