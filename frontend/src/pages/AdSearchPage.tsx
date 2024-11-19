@@ -19,9 +19,14 @@ const AdSearchPage = () => {
                             <AdCard
                                 id={el.id}
                                 title={el.title}
-                                picture={el.pictures?.at(0)?.url}
+                                pictures={el.pictures}
                                 price={el.price}
                                 category={el.category}
+                                createdAt={el.createdAt}
+                                description={el.description}
+                                location={el.location}
+                                owner={el.owner}
+                                tags={el.tags}
                             />
                         </div>
                     ))}
