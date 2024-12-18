@@ -49,7 +49,7 @@ const AdDetailsPage = () => {
                 ></path>
               </svg>
               Envoyer un email</a>
-            <Link className="button button-primary link-button" to={`/ad/edit/${id}`}>
+            <Link className="button button-primary link-button" to={`/ad/update/${id}`}>
               Modifier l'annonce</Link>
             <button
               className="button button-primary link-button"

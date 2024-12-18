@@ -30,3 +30,9 @@ export const DELETE_AD = gql`
         deleteAd(id: $deleteAdId)
     }
 `;
+
+export const UPDATE_AD_BY_ID = gql`
+  mutation UpdateAdById($data: UpdateAdInput!) {
+    updateAd(data: $data)
+  }
+`;

@@ -5,15 +5,15 @@ import { Tag } from "../entities/Tag";
 import { Field, ID, InputType } from "type-graphql";
 
 @InputType()
-class PictureInput {
-    @Field()
-    url: string;
+export class PictureInput implements Partial<Picture> {
+  @Field()
+  url: string;
 }
 
 @InputType()
-class TagInput {
-    @Field()
-    id: number;
+export class TagInput {
+  @Field()
+  id: number;
 }
 
 @InputType()
