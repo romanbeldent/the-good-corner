@@ -20,13 +20,13 @@ export type Scalars = {
 
 export type Ad = {
   __typename?: 'Ad';
-  category?: Maybe<Category>;
+  category: Category;
   createdAt: Scalars['DateTimeISO']['output'];
   description: Scalars['String']['output'];
   id: Scalars['Float']['output'];
   location: Scalars['String']['output'];
   owner: Scalars['String']['output'];
-  pictures?: Maybe<Array<Picture>>;
+  pictures: Array<Picture>;
   price: Scalars['Float']['output'];
   tags?: Maybe<Array<Tag>>;
   title: Scalars['String']['output'];
@@ -115,6 +115,7 @@ export type Query = {
 
 
 export type QueryAllAdsArgs = {
+  category?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -161,7 +162,7 @@ export type CreateNewAdMutationVariables = Exact<{
 }>;
 
 
-export type CreateNewAdMutation = { __typename?: 'Mutation', createNewAd: { __typename?: 'Ad', id: number, title: string, price: number, owner: string, location: string, description: string, createdAt: any, pictures?: Array<{ __typename?: 'Picture', url: string }> | null, category?: { __typename?: 'Category', name: string, id: number } | null, tags?: Array<{ __typename?: 'Tag', name: string, id: number }> | null } };
+export type CreateNewAdMutation = { __typename?: 'Mutation', createNewAd: { __typename?: 'Ad', id: number, title: string, price: number, owner: string, location: string, description: string, createdAt: any, pictures: Array<{ __typename?: 'Picture', url: string }>, category: { __typename?: 'Category', name: string, id: number }, tags?: Array<{ __typename?: 'Tag', name: string, id: number }> | null } };
 
 export type DeleteAdMutationVariables = Exact<{
   deleteAdId: Scalars['Float']['input'];
@@ -179,17 +180,18 @@ export type UpdateAdByIdMutation = { __typename?: 'Mutation', updateAd: string }
 
 export type AllAdsQueryVariables = Exact<{
   title?: InputMaybe<Scalars['String']['input']>;
+  category?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type AllAdsQuery = { __typename?: 'Query', AllAds: Array<{ __typename?: 'Ad', id: number, title: string, description: string, owner: string, price: number, location: string, createdAt: any, pictures?: Array<{ __typename?: 'Picture', id: number, url: string }> | null, category?: { __typename?: 'Category', id: number, name: string } | null, tags?: Array<{ __typename?: 'Tag', id: number, name: string }> | null }> };
+export type AllAdsQuery = { __typename?: 'Query', AllAds: Array<{ __typename?: 'Ad', id: number, title: string, description: string, owner: string, price: number, location: string, createdAt: any, pictures: Array<{ __typename?: 'Picture', id: number, url: string }>, category: { __typename?: 'Category', id: number, name: string }, tags?: Array<{ __typename?: 'Tag', id: number, name: string }> | null }> };
 
 export type GetAdByIdQueryVariables = Exact<{
   getAdByIdId: Scalars['Float']['input'];
 }>;
 
 
-export type GetAdByIdQuery = { __typename?: 'Query', getAdById: { __typename?: 'Ad', id: number, title: string, description: string, owner: string, price: number, location: string, createdAt: any, pictures?: Array<{ __typename?: 'Picture', id: number, url: string }> | null, category?: { __typename?: 'Category', id: number, name: string } | null, tags?: Array<{ __typename?: 'Tag', id: number, name: string }> | null } };
+export type GetAdByIdQuery = { __typename?: 'Query', getAdById: { __typename?: 'Ad', id: number, title: string, description: string, owner: string, price: number, location: string, createdAt: any, pictures: Array<{ __typename?: 'Picture', id: number, url: string }>, category: { __typename?: 'Category', id: number, name: string }, tags?: Array<{ __typename?: 'Tag', id: number, name: string }> | null } };
 
 export type AllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -315,8 +317,8 @@ export type UpdateAdByIdMutationHookResult = ReturnType<typeof useUpdateAdByIdMu
 export type UpdateAdByIdMutationResult = Apollo.MutationResult<UpdateAdByIdMutation>;
 export type UpdateAdByIdMutationOptions = Apollo.BaseMutationOptions<UpdateAdByIdMutation, UpdateAdByIdMutationVariables>;
 export const AllAdsDocument = gql`
-    query AllAds($title: String) {
-  AllAds(title: $title) {
+    query AllAds($title: String, $category: String) {
+  AllAds(title: $title, category: $category) {
     id
     title
     description
@@ -353,6 +355,7 @@ export const AllAdsDocument = gql`
  * const { data, loading, error } = useAllAdsQuery({
  *   variables: {
  *      title: // value for 'title'
+ *      category: // value for 'category'
  *   },
  * });
  */

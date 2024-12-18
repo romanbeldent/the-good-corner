@@ -284,7 +284,7 @@ const CreateOrUpdateAdForm = ({
               <select {...register("category")}>
                 {data.AllCategories.map((el: any) => (
                   <option key={el.id} value={el.id}>
-                    {el.title}
+                    {el.name}
                   </option>
                 ))}
               </select>

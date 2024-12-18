@@ -1,7 +1,16 @@
 import { Link } from "react-router-dom";
-import { Ad } from "../generated/graphql-types";
+import { Category, Picture } from "../generated/graphql-types";
 
-const AdCard = ({ id, title, pictures, price, category }: Ad) => {
+export type AdCardProps = {
+  __typename?: string;
+  id: number;
+  title: string;
+  price: number;
+  category: Category;
+  pictures: Picture[];
+}
+
+const AdCard = ({ id, title, pictures, price, category }: AdCardProps) => {
   return (
     <div className="ad-card-container">
       <Link className="ad-card-link" to={`/ad/${id}`} >
@@ -9,7 +18,7 @@ const AdCard = ({ id, title, pictures, price, category }: Ad) => {
         <div className="ad-card-text">
           <div className="ad-card-title">{title}</div>
           <div className="ad-card-price">{price} €</div>
-          <div className="ad-card-category">{category?.name} </div>
+          <div className="ad-card-category">{category.name}</div>
         </div>
       </Link >
     </div >
