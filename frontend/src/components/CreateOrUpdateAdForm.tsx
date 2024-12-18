@@ -2,6 +2,8 @@ import { ErrorMessage } from "@hookform/error-message";
 import { useForm, useFieldArray, SubmitHandler } from "react-hook-form";
 import { Fragment } from "react/jsx-runtime";
 import { useAllTagsAndCategoriesQuery } from "../generated/graphql-types";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const CreateOrUpdateAdForm = ({
   defaultValues,
@@ -10,6 +12,7 @@ const CreateOrUpdateAdForm = ({
   defaultValues: object;
   submitToBackend: any;
 }) => {
+  const navigate = useNavigate();
   const { error, loading, data } = useAllTagsAndCategoriesQuery();
   type Inputs = {
     title: string;
@@ -52,8 +55,9 @@ const CreateOrUpdateAdForm = ({
       tags: data.tags ? data.tags.map((el) => ({ id: parseInt(el) })) : [],
     };
 
-    // console.log("data for backend", dataForBackend);
-    submitToBackend({ variables: { data: dataForBackend } });
+    await submitToBackend({ variables: { data: dataForBackend } });
+    toast.success("Success");
+    navigate("/");
   };
 
   if (loading) return <p>Loading...</p>;
