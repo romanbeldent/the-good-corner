@@ -6,8 +6,11 @@ import { Picture } from "../entities/Picture";
 
 
 export const dataSourceGoodCorner = new DataSource({
-    database: "good_corner.sqlite",
-    type: "sqlite",
+    type: "postgres",
+    host: "db",
+    database:"postgres",
+    username:"postgres",
+    password:"password",
     entities: [Ad, Category, Tag, Picture],
     synchronize: true,
     logging: ["error", "query"]
