@@ -22,11 +22,6 @@ const AdSearchPage = () => {
                                 pictures={el.pictures}
                                 price={el.price}
                                 category={el.category}
-                                createdAt={el.createdAt}
-                                description={el.description}
-                                location={el.location}
-                                owner={el.owner}
-                                tags={el.tags}
                             />
                         </div>
                     ))}
