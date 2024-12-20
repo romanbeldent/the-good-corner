@@ -23,12 +23,24 @@ h1 {
   background-color: rgb(142, 142, 142);
 }
 
+.ad-details-image-container img {
+  height: 150px;
+}
+
 .main-menu {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
   color: #ffa41b;
+}
+
+.image-input-and-remove img {
+  height: 100px;
+}
+
+.picturesContainer {
+  display: flex;
 }
 
 .categories-navigation {
@@ -161,6 +173,7 @@ h1 {
   .mobile-short-label {
     display: none;
   }
+
   .desktop-long-label {
     display: initial;
   }
@@ -221,10 +234,11 @@ h1 {
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  background-color: #fff;  
+  background-color: #fff;
 }
 
-.form label, select {
+.form label,
+select {
   width: 100%;
   margin-bottom: 10px;
   font-weight: bold;
@@ -236,5 +250,4 @@ h1 {
   font-size: 14px;
 }
 
-.image-input-and-remove {
-}
+.image-input-and-remove {}

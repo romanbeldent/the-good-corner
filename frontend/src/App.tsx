@@ -10,6 +10,7 @@ import AdsByCategoryPage from "./pages/AdsByCategoryPage";
 import AdEditPage from "./pages/AdUpdatePage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import SingleFileUploader from "./pages/TestFileUpload";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="ad/:id" element={<AdDetailsPage />} />
           <Route path="category/new" element={<NewCategoryFormPage />} />
           <Route path="category/:keyword" element={<AdsByCategoryPage />} />
+          <Route path="testimg" element={<SingleFileUploader />} />
         </Route>
       </Routes>
       <ToastContainer theme="colored" />
