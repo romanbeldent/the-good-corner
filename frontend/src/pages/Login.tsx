@@ -1,12 +1,13 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useLoginLazyQuery } from "../generated/graphql-types"
+import { useNavigate } from "react-router-dom";
 const LoginPage = () => {
     const [login] = useLoginLazyQuery();
     type Inputs = {
         login: string
         password: string
     }
-
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -15,10 +16,11 @@ const LoginPage = () => {
     const onSubmit: SubmitHandler<Inputs> = (data) => {
         console.log("data", data);
         login({
-            variables: { data: { email: data.login, password: data.password}}, 
+            variables: { data: { email: data.login, password: data.password } },
             onCompleted: (result) => {
                 console.log("result", result);
                 localStorage.setItem("token", result.login);
+                navigate("/");
             },
             onError: (error) => {
                 console.log("error", error)
