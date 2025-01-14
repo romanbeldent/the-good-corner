@@ -23,21 +23,21 @@ class UserResolver {
             email: loginUserData.email
         });
         if (user) {
-             isPasswordCorrect = await argon2.verify(
-                user.hashedPassword, 
+            isPasswordCorrect = await argon2.verify(
+                user.hashedPassword,
                 loginUserData.password
             );
         } else {
             throw new Error("User does not exist")
         }
-        if (isPasswordCorrect === true && user !== null ) {
-            const token = jwt.sign({ email: user.email}, 
-            process.env.JWT_SECRET_KEY as jwt.Secret);
+        if (isPasswordCorrect === true && user !== null) {
+            const token = jwt.sign({ email: user.email },
+                process.env.JWT_SECRET_KEY as jwt.Secret);
             return token;
         } else {
             throw new Error("Invalid password");
         }
     }
 }
- 
+
 export default UserResolver;

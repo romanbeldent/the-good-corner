@@ -1,6 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useLoginLazyQuery } from "../generated/graphql-types"
 import { useNavigate } from "react-router-dom";
+
 const LoginPage = () => {
     const [login] = useLoginLazyQuery();
     type Inputs = {
