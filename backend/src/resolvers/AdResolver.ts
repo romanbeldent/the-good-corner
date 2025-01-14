@@ -1,7 +1,7 @@
 import AdInput from "../inputs/AdInput";
 import UpdateAdInput from "../inputs/UpdateAdInput";
 import { Ad } from "../entities/Ad";
-import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { FindManyOptions, Like } from "typeorm";
 
 @Resolver(Ad)
@@ -34,6 +34,7 @@ class AdResolver {
         return ad;
     }
 
+    @Authorized()
     @Mutation(() => Ad)
     async createNewAd(
         @Arg("data") newAdData: AdInput,

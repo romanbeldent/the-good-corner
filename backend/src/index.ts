@@ -18,6 +18,12 @@ const start = async () => {
 
     const schema = await buildSchema({
         resolvers: [AdResolver, CategoryResolver, TagResolver, UserResolver],
+        authChecker: ({context}) => {
+            if (context.email) {
+                return true;
+            }
+            return false;
+        }
     });
 
     const server = new ApolloServer({
