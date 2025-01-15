@@ -9,7 +9,6 @@ export const CREATE_AD = gql`
             pictures {
                 url
             }
-            owner
             location
             description
             createdAt

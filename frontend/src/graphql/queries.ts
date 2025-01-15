@@ -7,7 +7,6 @@ export const GET_ADS = gql`
             id
             title
             description
-            owner
             price
             location
             createdAt
@@ -33,8 +32,10 @@ export const GET_AD_BY_ID = gql`
             id
             title
             description
-            owner
             price
+            user {
+                email
+            }
             pictures {
                 id
                 url

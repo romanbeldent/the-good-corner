@@ -25,11 +25,11 @@ export type Ad = {
   description: Scalars['String']['output'];
   id: Scalars['Float']['output'];
   location: Scalars['String']['output'];
-  owner: Scalars['String']['output'];
   pictures: Array<Picture>;
   price: Scalars['Float']['output'];
   tags?: Maybe<Array<Tag>>;
   title: Scalars['String']['output'];
+  user?: Maybe<User>;
 };
 
 export type AdInput = {
@@ -37,7 +37,6 @@ export type AdInput = {
   createdAt: Scalars['DateTimeISO']['input'];
   description: Scalars['String']['input'];
   location: Scalars['String']['input'];
-  owner: Scalars['String']['input'];
   pictures?: InputMaybe<Array<PictureInput>>;
   price: Scalars['Float']['input'];
   tags?: InputMaybe<Array<TagInput>>;
@@ -169,6 +168,12 @@ export type UpdateCategoryInput = {
   name: Scalars['String']['input'];
 };
 
+export type User = {
+  __typename?: 'User';
+  ads?: Maybe<Array<Ad>>;
+  email: Scalars['String']['output'];
+};
+
 export type UserInput = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -179,7 +184,7 @@ export type CreateNewAdMutationVariables = Exact<{
 }>;
 
 
-export type CreateNewAdMutation = { __typename?: 'Mutation', createNewAd: { __typename?: 'Ad', id: number, title: string, price: number, owner: string, location: string, description: string, createdAt: any, pictures: Array<{ __typename?: 'Picture', url: string }>, category: { __typename?: 'Category', name: string, id: number }, tags?: Array<{ __typename?: 'Tag', name: string, id: number }> | null } };
+export type CreateNewAdMutation = { __typename?: 'Mutation', createNewAd: { __typename?: 'Ad', id: number, title: string, price: number, location: string, description: string, createdAt: any, pictures: Array<{ __typename?: 'Picture', url: string }>, category: { __typename?: 'Category', name: string, id: number }, tags?: Array<{ __typename?: 'Tag', name: string, id: number }> | null } };
 
 export type DeleteAdMutationVariables = Exact<{
   deleteAdId: Scalars['Float']['input'];
@@ -201,14 +206,14 @@ export type AllAdsQueryVariables = Exact<{
 }>;
 
 
-export type AllAdsQuery = { __typename?: 'Query', AllAds: Array<{ __typename?: 'Ad', id: number, title: string, description: string, owner: string, price: number, location: string, createdAt: any, pictures: Array<{ __typename?: 'Picture', id: number, url: string }>, category: { __typename?: 'Category', id: number, name: string }, tags?: Array<{ __typename?: 'Tag', id: number, name: string }> | null }> };
+export type AllAdsQuery = { __typename?: 'Query', AllAds: Array<{ __typename?: 'Ad', id: number, title: string, description: string, price: number, location: string, createdAt: any, pictures: Array<{ __typename?: 'Picture', id: number, url: string }>, category: { __typename?: 'Category', id: number, name: string }, tags?: Array<{ __typename?: 'Tag', id: number, name: string }> | null }> };
 
 export type GetAdByIdQueryVariables = Exact<{
   getAdByIdId: Scalars['Float']['input'];
 }>;
 
 
-export type GetAdByIdQuery = { __typename?: 'Query', getAdById: { __typename?: 'Ad', id: number, title: string, description: string, owner: string, price: number, location: string, createdAt: any, pictures: Array<{ __typename?: 'Picture', id: number, url: string }>, category: { __typename?: 'Category', id: number, name: string }, tags?: Array<{ __typename?: 'Tag', id: number, name: string }> | null } };
+export type GetAdByIdQuery = { __typename?: 'Query', getAdById: { __typename?: 'Ad', id: number, title: string, description: string, price: number, location: string, createdAt: any, user?: { __typename?: 'User', email: string } | null, pictures: Array<{ __typename?: 'Picture', id: number, url: string }>, category: { __typename?: 'Category', id: number, name: string }, tags?: Array<{ __typename?: 'Tag', id: number, name: string }> | null } };
 
 export type AllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -237,7 +242,6 @@ export const CreateNewAdDocument = gql`
     pictures {
       url
     }
-    owner
     location
     description
     createdAt
@@ -346,7 +350,6 @@ export const AllAdsDocument = gql`
     id
     title
     description
-    owner
     price
     location
     createdAt
@@ -405,8 +408,10 @@ export const GetAdByIdDocument = gql`
     id
     title
     description
-    owner
     price
+    user {
+      email
+    }
     pictures {
       id
       url

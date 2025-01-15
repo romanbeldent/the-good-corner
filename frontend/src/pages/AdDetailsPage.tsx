@@ -31,10 +31,10 @@ const AdDetailsPage = () => {
             </div>
             <hr className="separator" />
             <div className="ad-details-owner">
-              Annoncée publiée par <b>{data.getAdById.owner}</b> le {new Date(data.getAdById.createdAt as string).toLocaleString().slice(0, 9)}.
+              Annoncée publiée par <b>{data.getAdById.user.email}</b> le {new Date(data.getAdById.createdAt as string).toLocaleString().slice(0, 9)}.
             </div>
             <a
-              href="mailto:serge@serge.com"
+              href={`mailto:"${data.getAdById.user.email}`}
               className="button button-primary link-button"
             ><svg
               aria-hidden="true"

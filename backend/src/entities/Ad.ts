@@ -4,6 +4,7 @@ import { Category } from "./Category";
 import { Tag } from "./Tag";
 import { Picture } from "./Picture";
 import { Field, ObjectType } from "type-graphql";
+import { User } from "./User";
 
 @ObjectType()
 @Entity()
@@ -22,10 +23,6 @@ export class Ad extends BaseEntity {
         message: "Entre 10 et 100 caractères"
     })
     description: string;
-
-    @Field()
-    @Column()
-    owner: string
 
     @Field()
     @Column()
@@ -54,4 +51,11 @@ export class Ad extends BaseEntity {
     @ManyToMany(() => Tag, tag => tag.ads, { eager: true })
     @JoinTable()
     tags: Tag[];
+
+    @Field(() => User)
+    @ManyToOne(() => User, (user) => user.ads, {
+        eager: true,
+        onDelete: "CASCADE",
+    })
+    user: User;
 }
