@@ -2,7 +2,11 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { useLoginLazyQuery } from "../generated/graphql-types"
 import { useNavigate } from "react-router-dom";
 
-const LoginPage = () => {
+const LoginPage = ({
+    setShowLogin,
+}: {
+    setShowLogin: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
     const [login] = useLoginLazyQuery();
     type Inputs = {
         login: string
@@ -21,6 +25,7 @@ const LoginPage = () => {
             onCompleted: (result) => {
                 console.log("result", result);
                 localStorage.setItem("token", result.login);
+                setShowLogin(false);
                 navigate("/");
             },
             onError: (error) => {
@@ -28,18 +33,32 @@ const LoginPage = () => {
             }
         });
     };
+
     return (
-        <>
-        <h2>Se connecter</h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <input placeholder="email" {...register("login", { required: true })} />
-            {errors.login && <span>This field is required</span>}
-            <input placeholder="password" type="password" {...register("password", { required: true })} />
-            {errors.password && <span>This field is required</span>}
-            <input type="submit" />
-        </form>
-        </>
-    )
-}
+        <div className="loginModalContainer">
+            <div className="loginModalContent">
+                <h2>Login</h2>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <input
+                        defaultValue={"test@gmail.com"}
+                        placeholder="email"
+                        {...register("login", { required: true })}
+                    />
+                    {errors.password && <span>This field is required</span>}
+
+                    <input
+                        defaultValue={"test"}
+                        placeholder="password"
+                        type="password"
+                        {...register("password", { required: true })}
+                    />
+                    {errors.password && <span>This field is required</span>}
+
+                    <input type="submit" />
+                </form>
+            </div>
+        </div>
+    );
+};
 
 export default LoginPage;

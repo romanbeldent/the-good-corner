@@ -3,7 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GET_CATEGORIES } from "../graphql/queries";
 
-const Header = () => {
+const Header = ({
+  setShowLogin,
+}: {
+  setShowLogin: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const navigate = useNavigate();
   const isLoggedIn = localStorage.getItem("token") ? true : false;
 
@@ -68,11 +72,14 @@ const Header = () => {
           </>
         ) : (
           <>
-            <Link className="button link-button" to={`/login`} >
-              <span className="mobile-short-label">Se connecter</span>
-              <span className="desktop-long-label">Se connecter</span>
-            </Link >
-
+            <button
+              className="button link-button"
+              onClick={() => {
+                setShowLogin(true);
+              }}
+            >
+              Login
+            </button>
             <Link className="button link-button" to={`/register`} >
               <span className="mobile-short-label">S'enregistrer</span>
               <span className="desktop-long-label">S'enregistrer</span>
