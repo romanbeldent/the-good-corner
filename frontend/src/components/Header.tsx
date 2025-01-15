@@ -5,6 +5,7 @@ import { GET_CATEGORIES } from "../graphql/queries";
 
 const Header = () => {
   const navigate = useNavigate();
+  const isLoggedIn = localStorage.getItem("token") ? true : false;
 
   const { loading, error, data } = useQuery(GET_CATEGORIES)
 
@@ -52,11 +53,32 @@ const Header = () => {
             </svg>
           </button>
         </form>
+        {isLoggedIn ? (
+          <>
+            <Link className="button link-button" to={`/ad/new`} >
+              <span className="mobile-short-label">Publier</span>
+              <span className="desktop-long-label">Publier une annonce</span>
+            </Link >
+            <button className="button link-button"
+              onClick={() => {
+                localStorage.removeItem("token")
+                navigate("/")
+              }}
+            >Se déconnecter</button>
+          </>
+        ) : (
+          <>
+            <Link className="button link-button" to={`/login`} >
+              <span className="mobile-short-label">Se connecter</span>
+              <span className="desktop-long-label">Se connecter</span>
+            </Link >
 
-        <Link className="button link-button" to={`/ad/new`} >
-          <span className="mobile-short-label">Publier</span>
-          <span className="desktop-long-label">Publier une annonce</span>
-        </Link >
+            <Link className="button link-button" to={`/register`} >
+              <span className="mobile-short-label">S'enregistrer</span>
+              <span className="desktop-long-label">S'enregistrer</span>
+            </Link >
+          </>
+        )}
       </div>
       <nav className="categories-navigation">
         {data.AllCategories.map((el: CategoryProps) => {

@@ -29,6 +29,8 @@ const LoginPage = () => {
         });
     };
     return (
+        <>
+        <h2>Se connecter</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
             <input placeholder="email" {...register("login", { required: true })} />
             {errors.login && <span>This field is required</span>}
@@ -36,6 +38,7 @@ const LoginPage = () => {
             {errors.password && <span>This field is required</span>}
             <input type="submit" />
         </form>
+        </>
     )
 }
 

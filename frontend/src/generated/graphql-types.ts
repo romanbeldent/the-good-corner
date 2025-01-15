@@ -29,7 +29,7 @@ export type Ad = {
   price: Scalars['Float']['output'];
   tags?: Maybe<Array<Tag>>;
   title: Scalars['String']['output'];
-  user?: Maybe<User>;
+  user: User;
 };
 
 export type AdInput = {
@@ -170,7 +170,7 @@ export type UpdateCategoryInput = {
 
 export type User = {
   __typename?: 'User';
-  ads?: Maybe<Array<Ad>>;
+  ads: Array<Ad>;
   email: Scalars['String']['output'];
 };
 
@@ -200,6 +200,13 @@ export type UpdateAdByIdMutationVariables = Exact<{
 
 export type UpdateAdByIdMutation = { __typename?: 'Mutation', updateAd: string };
 
+export type RegisterMutationVariables = Exact<{
+  data: UserInput;
+}>;
+
+
+export type RegisterMutation = { __typename?: 'Mutation', register: string };
+
 export type AllAdsQueryVariables = Exact<{
   title?: InputMaybe<Scalars['String']['input']>;
   category?: InputMaybe<Scalars['String']['input']>;
@@ -213,7 +220,7 @@ export type GetAdByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetAdByIdQuery = { __typename?: 'Query', getAdById: { __typename?: 'Ad', id: number, title: string, description: string, price: number, location: string, createdAt: any, user?: { __typename?: 'User', email: string } | null, pictures: Array<{ __typename?: 'Picture', id: number, url: string }>, category: { __typename?: 'Category', id: number, name: string }, tags?: Array<{ __typename?: 'Tag', id: number, name: string }> | null } };
+export type GetAdByIdQuery = { __typename?: 'Query', getAdById: { __typename?: 'Ad', id: number, title: string, description: string, price: number, location: string, createdAt: any, user: { __typename?: 'User', email: string }, pictures: Array<{ __typename?: 'Picture', id: number, url: string }>, category: { __typename?: 'Category', id: number, name: string }, tags?: Array<{ __typename?: 'Tag', id: number, name: string }> | null } };
 
 export type AllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -344,6 +351,37 @@ export function useUpdateAdByIdMutation(baseOptions?: Apollo.MutationHookOptions
 export type UpdateAdByIdMutationHookResult = ReturnType<typeof useUpdateAdByIdMutation>;
 export type UpdateAdByIdMutationResult = Apollo.MutationResult<UpdateAdByIdMutation>;
 export type UpdateAdByIdMutationOptions = Apollo.BaseMutationOptions<UpdateAdByIdMutation, UpdateAdByIdMutationVariables>;
+export const RegisterDocument = gql`
+    mutation Register($data: UserInput!) {
+  register(data: $data)
+}
+    `;
+export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
+
+/**
+ * __useRegisterMutation__
+ *
+ * To run a mutation, you first call `useRegisterMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRegisterMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [registerMutation, { data, loading, error }] = useRegisterMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options);
+      }
+export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
+export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
+export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
 export const AllAdsDocument = gql`
     query AllAds($title: String, $category: String) {
   AllAds(title: $title, category: $category) {
