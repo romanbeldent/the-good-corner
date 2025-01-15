@@ -22,9 +22,7 @@ const LoginPage = ({
         console.log("data", data);
         login({
             variables: { data: { email: data.login, password: data.password } },
-            onCompleted: (result) => {
-                console.log("result", result);
-                localStorage.setItem("token", result.login);
+            onCompleted: () => {
                 setShowLogin(false);
                 navigate("/");
             },
