@@ -78,8 +78,24 @@ query AllTagsAndCategories {
 }
 `;
 
-export const LOGIN = gql`
-query Login($data: UserInput!) {
-    login(data: $data)
+export const GET_USER_INFO = gql`
+  query GetUserInfo {
+    getUserInfo {
+      email
+      isLoggedIn
+    }
+  }
+`;
+
+export const GET_ALL_CATEGORIES_AND_USER_INFO = gql`
+query GetAllCategoriesAndUserInfo {
+    getUserInfo {
+        email
+        isLoggedIn
+    }
+    AllCategories {
+        id
+        name
+    }       
 }
 `;

@@ -1,13 +1,14 @@
 import { useForm, SubmitHandler } from "react-hook-form"
-import { useLoginLazyQuery } from "../generated/graphql-types"
 import { useNavigate } from "react-router-dom";
+import { useLoginMutation } from "../generated/graphql-types";
+import { GET_USER_INFO } from "../graphql/queries";
 
 const LoginPage = ({
     setShowLogin,
 }: {
     setShowLogin: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-    const [login] = useLoginLazyQuery();
+    const [login] = useLoginMutation();
     type Inputs = {
         login: string
         password: string
@@ -28,7 +29,8 @@ const LoginPage = ({
             },
             onError: (error) => {
                 console.log("error", error)
-            }
+            },
+            refetchQueries: [{ query: GET_USER_INFO }]
         });
     };
 

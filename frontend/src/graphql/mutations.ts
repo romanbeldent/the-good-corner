@@ -41,3 +41,9 @@ export const REGISTER = gql`
     register(data: $data)
   }
 `;
+
+export const LOGIN = gql`
+mutation Login($data: UserInput!) {
+    login(data: $data)
+}
+`;
