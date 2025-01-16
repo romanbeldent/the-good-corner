@@ -31,7 +31,7 @@ const start = async () => {
                     return false;
                 }
             } else {
-                return false;
+                return false; 
             }
         },
     });
