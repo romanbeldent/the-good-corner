@@ -51,6 +51,12 @@ class UserResolver {
         }
     }
 
+    @Mutation(() => String) 
+    async logout(@Ctx() context: any) {
+        context.res.setHeader("Set-Cookie", `token=; Secure; HttpOnly; Max-Age=0`);
+        return "logged out";
+    }
+
     @Query(() => UserInfo)
     async getUserInfo(@Ctx() context: any) {
         if (context.email) {

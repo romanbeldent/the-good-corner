@@ -1,6 +1,7 @@
 import CategoryCard, { CategoryProps } from "./CategoryCard";
 import { Link, useNavigate } from "react-router-dom";
-import { useGetAllCategoriesAndUserInfoQuery } from "../generated/graphql-types";
+import { useGetAllCategoriesAndUserInfoQuery, useLogoutMutation } from "../generated/graphql-types";
+import { GET_USER_INFO } from "../graphql/queries";
 
 const Header = ({
   setShowLogin,
@@ -10,6 +11,9 @@ const Header = ({
   const navigate = useNavigate();
 
   const { loading, error, data } = useGetAllCategoriesAndUserInfoQuery();
+  const [logout] = useLogoutMutation({
+    refetchQueries: [{ query: GET_USER_INFO }],
+  });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
@@ -63,7 +67,7 @@ const Header = ({
               </Link >
               <button className="button link-button"
                 onClick={() => {
-                  localStorage.removeItem("token")
+                  logout()
                   navigate("/")
                 }}
               >Se déconnecter</button>
