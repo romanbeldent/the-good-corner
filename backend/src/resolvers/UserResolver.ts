@@ -41,7 +41,10 @@ class UserResolver {
         }
         if (isPasswordCorrect === true && user !== null) {
             const token = jwt.sign(
-                { email: user.email },
+                {
+                    email: user.email,
+                    userRole: user.role
+                },
                 process.env.JWT_SECRET_KEY as jwt.Secret
             );
             context.res.setHeader("Set-Cookie", `token=${token}; Secure; HttpOnly`);
@@ -51,7 +54,7 @@ class UserResolver {
         }
     }
 
-    @Mutation(() => String) 
+    @Mutation(() => String)
     async logout(@Ctx() context: any) {
         context.res.setHeader("Set-Cookie", `token=; Secure; HttpOnly; Max-Age=0`);
         return "logged out";

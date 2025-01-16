@@ -66,6 +66,7 @@ class AdResolver {
         return "Ad has been updated";
     }
 
+    @Authorized("ADMIN")
     @Mutation(() => String)
     async deleteAd(@Arg("id") id: number) {
         const result = await Ad.delete({ id });
