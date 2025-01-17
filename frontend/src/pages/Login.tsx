@@ -37,7 +37,10 @@ const LoginPage = ({
     return (
         <div className="loginModalContainer">
             <div className="loginModalContent">
-                <h2>Login</h2>
+                <div className="loginAndCloseButton">
+                    <h2>Login</h2>
+                    <div onClick={() => { setShowLogin(false) }} className="close">X</div>
+                </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <input
                         defaultValue={"romanbeldent@gmail.com"}

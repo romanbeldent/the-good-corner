@@ -25,7 +25,7 @@ const ResetPasswordPage = () => {
                 toast.success("Votre mot de passe a bien été modifié !")
             },
             onError: () => {
-                toast.error("Les mots de passes ne correspondent pas");
+                toast.error("Le lien de réinitialisation du mot de passe a expiré");
             }
         })
     };
