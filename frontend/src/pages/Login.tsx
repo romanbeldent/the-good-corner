@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler } from "react-hook-form"
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../generated/graphql-types";
 import { GET_USER_INFO } from "../graphql/queries";
 
@@ -40,7 +40,7 @@ const LoginPage = ({
                 <h2>Login</h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <input
-                        defaultValue={"test@gmail.com"}
+                        defaultValue={"romanbeldent@gmail.com"}
                         placeholder="email"
                         {...register("login", { required: true })}
                     />
@@ -53,9 +53,9 @@ const LoginPage = ({
                         {...register("password", { required: true })}
                     />
                     {errors.password && <span>This field is required</span>}
-
                     <input type="submit" />
                 </form>
+                <Link className="button button-primary link-button" to={'/forgotten-password'} onClick={() => { setShowLogin(false) }}>Mot de passe oublié ?</Link>
             </div>
         </div>
     );
