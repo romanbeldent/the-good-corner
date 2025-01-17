@@ -55,8 +55,14 @@ class AdResolver {
     }
 
     @Mutation(() => String)
-    async updateAd(@Arg("data") updateAdData: UpdateAdInput) {
+    async updateAd(
+        @Arg("data") updateAdData: UpdateAdInput,
+        @Ctx() context: any
+    ) {
         let adToUpdate = await Ad.findOneByOrFail({ id: updateAdData.id });
+        if (adToUpdate.user.email !== context.email) {
+            throw new Error ("Unauthorized");
+        }
         console.log("ad to update", adToUpdate);
 
         adToUpdate = Object.assign(adToUpdate, updateAdData);
